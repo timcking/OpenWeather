@@ -1,0 +1,4 @@
+<resources>
+    <string name="app_name">JSON Demo</string>
+    <string name="myURL">http://api.openweathermap.org/data/2.5/weather?zip=95825&amp;units=imperial&amp;APPID=b480375788a0883deaccdae75a9438b1</string>
+</resources>
