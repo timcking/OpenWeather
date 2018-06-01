@@ -80,7 +80,7 @@ public class MainActivity extends AppCompatActivity {
                     Log.i("Description", jsonPart.getString("description"));
 
                     String weather = jsonPart.getString("main");
-                    textWeather.setText(place + "\n"+  temp + "\u00b0" + "\n" + weather);
+                    textWeather.setText(place + "\n"+  temp + " \u00b0 F\n" + weather);
 
                     String iconName = jsonPart.getString("icon");
 
