@@ -98,8 +98,8 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        iconWeather = (ImageView) findViewById(R.id.iconWeather);
-        textWeather = (TextView) findViewById(R.id.textWeather);
+        iconWeather = findViewById(R.id.iconWeather);
+        textWeather = findViewById(R.id.textWeather);
 
         DownloadTask task = new DownloadTask();
 
