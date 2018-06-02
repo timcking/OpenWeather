@@ -4,6 +4,7 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -22,6 +23,17 @@ public class MainActivity extends AppCompatActivity {
 
     ImageView iconWeather;
     TextView textWeather;
+    TextView textZipCode;
+
+    public void findWeather(View view) {
+
+        String zipCode = textZipCode.getText().toString();
+        DownloadTask task = new DownloadTask();
+
+        // Using string resource
+        String myURL = getString(R.string.myURL1) + zipCode + getString(R.string.myURL2);
+        task.execute(myURL);
+    }
 
     public class DownloadTask extends AsyncTask<String, Void, String> {
 
@@ -63,12 +75,13 @@ public class MainActivity extends AppCompatActivity {
                 String temp = jsonObject.getJSONObject("main").getString("temp");
                 String place = jsonObject.getString("name");
 
-                // ToDo, format XX.XX to XX
-                // String newtemp = temp.replaceAll("[.0]+$", "");
-                // String newtemp = temp.replaceAll("\\.0*$", "");
-                // Log.i("MainInfoNewTemp", newtemp);
+                // String newTemp = String.format('%.2f', temp);
 
-                Log.i("MainInfoTemp", temp);
+                // Format XX.XX to XX
+                String newTemp = temp.replaceAll("\\..*$", "");
+
+                // Log.i("MainInfoTemp", temp);
+                // Log.i("MainInfoNewTemp", newTemp);
                 // Log.i("Weather", weatherInfo);
 
                 JSONArray arr = new JSONArray(weatherInfo);
@@ -80,7 +93,7 @@ public class MainActivity extends AppCompatActivity {
                     Log.i("Description", jsonPart.getString("description"));
 
                     String weather = jsonPart.getString("main");
-                    textWeather.setText(place + "\n"+  temp + " \u00b0 F\n" + weather);
+                    textWeather.setText(place + "\n"+  newTemp + " \u00b0 F\n" + weather);
 
                     String iconName = jsonPart.getString("icon");
 
@@ -100,14 +113,7 @@ public class MainActivity extends AppCompatActivity {
 
         iconWeather = findViewById(R.id.iconWeather);
         textWeather = findViewById(R.id.textWeather);
-
-        DownloadTask task = new DownloadTask();
-
-        // Using string resource
-        String myURL = getString(R.string.myURL);
-        task.execute(myURL);
-
-        // task.execute("http://api.openweathermap.org/data/2.5/weather?id=7260806&APPID=b480375788a0883deaccdae75a9438b1");
+        textZipCode = findViewById(R.id.textZipCode);
 
     }
 }
