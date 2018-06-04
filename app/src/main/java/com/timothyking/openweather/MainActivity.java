@@ -72,31 +72,20 @@ public class MainActivity extends AppCompatActivity {
                 JSONObject jsonObject = new JSONObject(result);
 
                 String weatherInfo = jsonObject.getString("weather");
+                String humidity = jsonObject.getJSONObject("main").getString("humidity");
                 String temp = jsonObject.getJSONObject("main").getString("temp");
-                String place = jsonObject.getString("name");
-
-                // String newTemp = String.format('%.2f', temp);
-
                 // Format XX.XX to XX
                 String newTemp = temp.replaceAll("\\..*$", "");
-
-                // Log.i("MainInfoTemp", temp);
-                // Log.i("MainInfoNewTemp", newTemp);
-                // Log.i("Weather", weatherInfo);
+                String place = jsonObject.getString("name");
 
                 JSONArray arr = new JSONArray(weatherInfo);
 
                 for (int i = 0; i < arr.length(); i++) {
-
                     JSONObject jsonPart = arr.getJSONObject(i);
-
-                    Log.i("Description", jsonPart.getString("description"));
-
                     String weather = jsonPart.getString("main");
-                    textWeather.setText(place + "\n"+  newTemp + " \u00b0 F\n" + weather);
-
+                    textWeather.setText(place + "\n" + newTemp + " \u00b0 F\n" + weather + "\n" +
+                            humidity + "% Humidity");
                     String iconName = jsonPart.getString("icon");
-
                     Picasso.get().load("http://openweathermap.org/img/w/" + iconName + ".png").into(iconWeather);
                 }
 
