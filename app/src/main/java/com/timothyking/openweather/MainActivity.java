@@ -25,13 +25,13 @@ public class MainActivity extends AppCompatActivity {
     TextView textWeather;
     TextView textZipCode;
 
-    public void findWeather(View view) {
+    public void findWeatherZip(View view) {
 
         String zipCode = textZipCode.getText().toString();
         DownloadTask task = new DownloadTask();
 
         // Using string resource
-        String myURL = getString(R.string.myURL1) + zipCode + getString(R.string.myURL2);
+        String myURL = getString(R.string.myURL1) + "zip=" + zipCode + getString(R.string.myURL2);
         task.execute(myURL);
     }
 
