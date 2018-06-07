@@ -1,5 +1,6 @@
 package com.timothyking.openweather;
 
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -30,8 +31,17 @@ public class MainActivity extends AppCompatActivity {
         String zipCode = textZipCode.getText().toString();
         DownloadTask task = new DownloadTask();
 
-        // Using string resource
+        // Using string resources
         String myURL = getString(R.string.myURL1) + "zip=" + zipCode + getString(R.string.myURL2);
+        task.execute(myURL);
+    }
+
+    public void findWeatherGeo(String lat, String lon) {
+
+        DownloadTask task = new DownloadTask();
+
+        // Using string resource
+        String myURL = getString(R.string.myURL1) + "lat=" + lat + "&lon=" + lon + getString(R.string.myURL2);
         task.execute(myURL);
     }
 
@@ -104,5 +114,10 @@ public class MainActivity extends AppCompatActivity {
         textWeather = findViewById(R.id.textWeather);
         textZipCode = findViewById(R.id.textZipCode);
 
+        // ToDo replace with GetGPS
+        findWeatherGeo("38.564215", "-121.413700");
+
+        // Intent intent = new Intent(this, GetLocation.class);
+        // startActivity(intent);
     }
 }
