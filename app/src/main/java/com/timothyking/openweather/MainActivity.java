@@ -117,7 +117,8 @@ public class MainActivity extends AppCompatActivity {
         // ToDo replace with GetGPS
         findWeatherGeo("38.564215", "-121.413700");
 
-        // Intent intent = new Intent(this, GetLocation.class);
-        // startActivity(intent);
+        // This now opens an empty screen on top of MainActivity
+        Intent intent = new Intent(this, GetGPS.class);
+        startActivity(intent);
     }
 }
