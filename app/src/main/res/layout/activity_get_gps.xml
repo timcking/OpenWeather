@@ -53,23 +53,14 @@
         app:layout_constraintTop_toBottomOf="@+id/textLat" />
 
     <Button
-        android:id="@+id/buttonEnable"
-        android:layout_width="88dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="72dp"
-        android:layout_marginTop="44dp"
-        android:text="Enable"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView3" />
-
-    <Button
         android:id="@+id/buttonGet"
         android:layout_width="88dp"
         android:layout_height="wrap_content"
         android:layout_marginEnd="8dp"
         android:layout_marginStart="8dp"
+        android:layout_marginTop="28dp"
         android:text="Get"
-        app:layout_constraintBaseline_toBaselineOf="@+id/buttonEnable"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/buttonEnable" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textLon" />
 </android.support.constraint.ConstraintLayout>

@@ -22,6 +22,7 @@ import java.net.URL;
 
 public class MainActivity extends AppCompatActivity {
 
+    private static final int GETGPS_REQUEST_CODE = 0;
     ImageView iconWeather;
     TextView textWeather;
     TextView textZipCode;
@@ -114,11 +115,29 @@ public class MainActivity extends AppCompatActivity {
         textWeather = findViewById(R.id.textWeather);
         textZipCode = findViewById(R.id.textZipCode);
 
-        // ToDo replace with GetGPS
-        findWeatherGeo("38.564215", "-121.413700");
+        // findWeatherGeo("38.564215", "-121.413700");
 
         // This now opens an empty screen on top of MainActivity
         Intent intent = new Intent(this, GetGPS.class);
-        startActivity(intent);
+        startActivityForResult(intent, GETGPS_REQUEST_CODE);
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        // check that it is the SecondActivity with an OK result
+        if (requestCode == GETGPS_REQUEST_CODE) {
+            if (resultCode == RESULT_OK) {
+
+                // get String data from Intent
+                String returnString = data.getStringExtra("keyGPS");
+
+                Log.i("***** GPS *****", returnString);
+
+                String[] geoArray = returnString.split(",");
+                findWeatherGeo(geoArray[0], geoArray[1]);
+            }
+        }
     }
 }
