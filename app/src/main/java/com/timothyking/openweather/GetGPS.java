@@ -36,7 +36,7 @@ public class GetGPS extends AppCompatActivity implements LocationListener  {
         setContentView(R.layout.activity_get_gps);
 
         // TCK
-        // EnableRuntimePermission();
+        EnableRuntimePermission();
 
         // buttonEnable = (Button)findViewById(R.id.buttonEnable);
         buttonGet = (Button)findViewById(R.id.buttonGet);
@@ -44,12 +44,14 @@ public class GetGPS extends AppCompatActivity implements LocationListener  {
         textViewLongitude = (TextView)findViewById(R.id.textLon);
         textViewLatitude = (TextView)findViewById(R.id.textLat);
 
-        locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
+        // locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
+        context = getApplicationContext();
+        locationManager = (LocationManager) getSystemService(context.LOCATION_SERVICE);
         criteria = new Criteria();
         Holder = locationManager.getBestProvider(criteria, false);
-        context = getApplicationContext();
 
         CheckGpsStatus();
+        setupGPS();
 
         // buttonEnable.setOnClickListener(new View.OnClickListener() {
         //    @Override
@@ -63,27 +65,31 @@ public class GetGPS extends AppCompatActivity implements LocationListener  {
             @Override
             public void onClick(View v) {
                 CheckGpsStatus();
-                if(GpsStatus == true) {
-                    if (Holder != null) {
-                        if (ActivityCompat.checkSelfPermission(
-                                GetGPS.this,
-                                Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED
-                                &&
-                                ActivityCompat.checkSelfPermission(GetGPS.this, Manifest.permission.ACCESS_COARSE_LOCATION)
-                                        != PackageManager.PERMISSION_GRANTED) {
-                            return;
-                        }
-                        location = locationManager.getLastKnownLocation(Holder);
-                        locationManager.requestLocationUpdates(Holder, 5000, 5, (LocationListener) GetGPS.this);
-                    }
-                }else {
-
-                    Toast.makeText(GetGPS.this, "Please Enable GPS First", Toast.LENGTH_LONG).show();
-
-                }
+                setupGPS();
             }
         });
     } //onCreate
+
+    public void setupGPS() {
+        if(GpsStatus == true) {
+            if (Holder != null) {
+                if (ActivityCompat.checkSelfPermission(
+                        GetGPS.this,
+                        Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED
+                        &&
+                        ActivityCompat.checkSelfPermission(GetGPS.this, Manifest.permission.ACCESS_COARSE_LOCATION)
+                                != PackageManager.PERMISSION_GRANTED) {
+                    return;
+                }
+                location = locationManager.getLastKnownLocation(Holder);
+                locationManager.requestLocationUpdates(Holder, 5000, 5, (LocationListener) GetGPS.this);
+            }
+        } else {
+
+            Toast.makeText(GetGPS.this, "Please Enable GPS First", Toast.LENGTH_LONG).show();
+
+        }
+    }
 
     @Override
     public void onLocationChanged(Location location) {
@@ -141,7 +147,7 @@ public class GetGPS extends AppCompatActivity implements LocationListener  {
         switch (RC) {
             case RequestPermissionCode:
                 if (PResult.length > 0 && PResult[0] == PackageManager.PERMISSION_GRANTED) {
-                    Toast.makeText(GetGPS.this,"Permission Granted, Now your application can access GPS.", Toast.LENGTH_LONG).show();
+                    // Toast.makeText(GetGPS.this,"Permission Granted, Now your application can access GPS.", Toast.LENGTH_LONG).show();
                 } else {
                     Toast.makeText(GetGPS.this,"Permission Canceled, Now your application cannot access GPS.", Toast.LENGTH_LONG).show();
                 }
