@@ -4,8 +4,11 @@ import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -26,6 +29,7 @@ public class MainActivity extends AppCompatActivity {
     ImageView iconWeather;
     TextView textWeather;
     TextView textZipCode;
+    Button buttonSearch;
 
     public void findWeatherZip(View view) {
 
@@ -44,6 +48,11 @@ public class MainActivity extends AppCompatActivity {
         // Using string resource
         String myURL = getString(R.string.myURL1) + "lat=" + lat + "&lon=" + lon + getString(R.string.myURL2);
         task.execute(myURL);
+    }
+
+    public void enableSubmitIfReady() {
+        boolean isReady = textZipCode.getText().toString().length() > 4;
+        buttonSearch.setEnabled(isReady);
     }
 
     public class DownloadTask extends AsyncTask<String, Void, String> {
@@ -114,10 +123,26 @@ public class MainActivity extends AppCompatActivity {
         iconWeather = findViewById(R.id.iconWeather);
         textWeather = findViewById(R.id.textWeather);
         textZipCode = findViewById(R.id.textZipCode);
+        buttonSearch = findViewById(R.id.buttonSearch);
+        enableSubmitIfReady();
 
-        // findWeatherGeo("38.564215", "-121.413700");
+        textZipCode.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
 
-        // This now opens an empty screen on top of MainActivity
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                enableSubmitIfReady();
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
+            }
+        });
+
         Intent intent = new Intent(this, GetGPS.class);
         startActivityForResult(intent, GETGPS_REQUEST_CODE);
     }

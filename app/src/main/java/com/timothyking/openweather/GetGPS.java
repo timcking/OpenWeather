@@ -12,18 +12,16 @@ import android.provider.Settings;
 import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.widget.Button;
-import android.widget.TextView;
-import android.view.View;
 import android.widget.Toast;
 
 public class GetGPS extends AppCompatActivity implements LocationListener  {
-
+/* ToDo
+Check for empty text
+Search by city
+Sunrise/Sunset
+ */
     public  static final int RequestPermissionCode  = 1;
-    TextView textViewLongitude, textViewLatitude;
-    Button buttonGet;
     Context context;
-    Intent intent1;
     Location location;
     LocationManager locationManager;
     boolean GpsStatus = false;
@@ -33,18 +31,10 @@ public class GetGPS extends AppCompatActivity implements LocationListener  {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_get_gps);
 
         // TCK
         EnableRuntimePermission();
 
-        // buttonEnable = (Button)findViewById(R.id.buttonEnable);
-        buttonGet = (Button)findViewById(R.id.buttonGet);
-
-        textViewLongitude = (TextView)findViewById(R.id.textLon);
-        textViewLatitude = (TextView)findViewById(R.id.textLat);
-
-        // locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
         context = getApplicationContext();
         locationManager = (LocationManager) getSystemService(context.LOCATION_SERVICE);
         criteria = new Criteria();
@@ -52,22 +42,6 @@ public class GetGPS extends AppCompatActivity implements LocationListener  {
 
         CheckGpsStatus();
         setupGPS();
-
-        // buttonEnable.setOnClickListener(new View.OnClickListener() {
-        //    @Override
-        //    public void onClick(View v) {
-        //        intent1 = new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS);
-        //        startActivity(intent1);
-        //    }
-        //});
-
-        buttonGet.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                CheckGpsStatus();
-                setupGPS();
-            }
-        });
     } //onCreate
 
     public void setupGPS() {
@@ -99,17 +73,12 @@ public class GetGPS extends AppCompatActivity implements LocationListener  {
         String short_lon = String.format("%.6f", lon);
         String short_lat = String.format("%.6f", lat);
 
-        textViewLongitude.setText(short_lon);
-        textViewLatitude.setText(short_lat);
-
         String stringToPassBack = short_lat + "," + short_lon;
 
         // put the String to pass back into an Intent and close this activity
         Intent intent = new Intent();
         intent.putExtra("keyGPS", stringToPassBack);
         setResult(RESULT_OK, intent);
-
-        // TCK this causes problems
         finish();
     }
 

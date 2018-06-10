@@ -45,7 +45,7 @@
         app:layout_constraintTop_toBottomOf="@+id/textWeather" />
 
     <Button
-        android:id="@+id/button2"
+        android:id="@+id/buttonSearch"
         android:layout_width="88dp"
         android:layout_height="48dp"
         android:layout_marginTop="16dp"
