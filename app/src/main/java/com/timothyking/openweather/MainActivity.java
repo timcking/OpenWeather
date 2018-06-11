@@ -23,17 +23,19 @@ import org.json.JSONObject;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.io.UnsupportedEncodingException;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.TimeZone;
 
 public class MainActivity extends AppCompatActivity {
     /* ToDo
     Check for empty text - done
     Search by city - done
     Error handling - done
-    Sunrise/Sunset
+    Sunrise/Sunset - remove hard-coded GMT and display
      */
 
     Context context;
@@ -54,6 +56,17 @@ public class MainActivity extends AppCompatActivity {
     //      String myURL = getString(R.string.myURL1) + "zip=" + zipCode + getString(R.string.myURL2);
     //      task.execute(myURL);
     //    }
+
+    public String getFormattedDate(long unixDate) {
+        // TimeZone tz = TimeZone.getDefault();
+        Date date = new java.util.Date(unixDate*1000L);
+        SimpleDateFormat sdf = new java.text.SimpleDateFormat("hh:mm:ss a");
+
+        // ToDo, remove hard-coded GMT
+        sdf.setTimeZone(java.util.TimeZone.getTimeZone("GMT-7"));
+        return sdf.format(date);
+
+    }
 
     public void findWeatherGeo(String lat, String lon) {
 
@@ -128,6 +141,13 @@ public class MainActivity extends AppCompatActivity {
                 // Format XX.XX to XX
                 String newTemp = temp.replaceAll("\\..*$", "");
                 String place = jsonObject.getString("name");
+
+                long sunset = jsonObject.getJSONObject("sys").getLong("sunset");
+                long sunrise = jsonObject.getJSONObject("sys").getLong("sunrise");
+
+                // ToDo, display sunrise/sunset
+                String formatSunset = getFormattedDate(sunset);
+                String formatSunrise = getFormattedDate(sunrise);
 
                 JSONArray arr = new JSONArray(weatherInfo);
 
