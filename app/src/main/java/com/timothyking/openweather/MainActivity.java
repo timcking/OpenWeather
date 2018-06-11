@@ -11,6 +11,8 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
+import android.content.Context;
 
 import com.squareup.picasso.Picasso;
 
@@ -18,20 +20,25 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.io.UnsupportedEncodingException;
 import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
 import java.net.URL;
 
 public class MainActivity extends AppCompatActivity {
     /* ToDo
     Check for empty text - done
     Search by city - done
-    Error handling
+    Error handling - done
     Sunrise/Sunset
      */
 
+    Context context;
     private static final int GETGPS_REQUEST_CODE = 0;
+    public  static final String TAG  = "OpenWeather";
     ImageView iconWeather;
     TextView textWeather;
     TextView textCity;
@@ -96,12 +103,17 @@ public class MainActivity extends AppCompatActivity {
                     data = reader.read();
                 }
 
-                return result;
-
-            } catch (Exception e) {
-                e.printStackTrace();
+            } catch (MalformedURLException e) {
+                Log.e(TAG, "error while fetching weather info (this should not happen really!)", e);
+            } catch (IOException e) {
+                Log.e(TAG, "error while fetching weather info", e);
+            } finally {
+                if(urlConnection != null)
+                    urlConnection.disconnect();
             }
-            return null;
+
+            return result;
+
         }
 
         protected void onPostExecute(String result) {
@@ -127,9 +139,9 @@ public class MainActivity extends AppCompatActivity {
                     String iconName = jsonPart.getString("icon");
                     Picasso.get().load("http://openweathermap.org/img/w/" + iconName + ".png").into(iconWeather);
                 }
-
             } catch (JSONException e) {
-                e.printStackTrace();
+                Toast.makeText(MainActivity.this, "Not found, try another city or zip", Toast.LENGTH_LONG).show();
+                Log.e(TAG, "error while fetching weather info", e);
             }
         }
     }
@@ -138,6 +150,8 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        context = getApplicationContext();
 
         iconWeather = findViewById(R.id.iconWeather);
         textWeather = findViewById(R.id.textWeather);
