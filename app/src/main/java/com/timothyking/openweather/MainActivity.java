@@ -24,22 +24,29 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 
 public class MainActivity extends AppCompatActivity {
+    /* ToDo
+    Check for empty text - done
+    Search by city - done
+    Error handling
+    Sunrise/Sunset
+     */
 
     private static final int GETGPS_REQUEST_CODE = 0;
     ImageView iconWeather;
     TextView textWeather;
-    TextView textZipCode;
+    TextView textCity;
     Button buttonSearch;
 
-    public void findWeatherZip(View view) {
-
-        String zipCode = textZipCode.getText().toString();
-        DownloadTask task = new DownloadTask();
-
-        // Using string resources
-        String myURL = getString(R.string.myURL1) + "zip=" + zipCode + getString(R.string.myURL2);
-        task.execute(myURL);
-    }
+    // TCK, not being used
+    //  public void findWeatherZip(View view) {
+    //
+    //      String zipCode = textZipCode.getText().toString();
+    //      DownloadTask task = new DownloadTask();
+    //
+    //      // Using string resources
+    //      String myURL = getString(R.string.myURL1) + "zip=" + zipCode + getString(R.string.myURL2);
+    //      task.execute(myURL);
+    //    }
 
     public void findWeatherGeo(String lat, String lon) {
 
@@ -50,8 +57,20 @@ public class MainActivity extends AppCompatActivity {
         task.execute(myURL);
     }
 
+    public void findWeatherCity(View view) {
+
+        // TCK temp
+        String city = textCity.getText().toString();
+
+        DownloadTask task = new DownloadTask();
+
+        // Using string resource
+        String myURL = getString(R.string.myURL1) + "q=" + city + ",US" + getString(R.string.myURL2);
+        task.execute(myURL);
+    }
+
     public void enableSubmitIfReady() {
-        boolean isReady = textZipCode.getText().toString().length() > 4;
+        boolean isReady = textCity.getText().toString().length() > 2;
         buttonSearch.setEnabled(isReady);
     }
 
@@ -122,11 +141,11 @@ public class MainActivity extends AppCompatActivity {
 
         iconWeather = findViewById(R.id.iconWeather);
         textWeather = findViewById(R.id.textWeather);
-        textZipCode = findViewById(R.id.textZipCode);
+        textCity = findViewById(R.id.textCity);
         buttonSearch = findViewById(R.id.buttonSearch);
         enableSubmitIfReady();
 
-        textZipCode.addTextChangedListener(new TextWatcher() {
+        textCity.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
 
@@ -158,7 +177,7 @@ public class MainActivity extends AppCompatActivity {
                 // get String data from Intent
                 String returnString = data.getStringExtra("keyGPS");
 
-                Log.i("***** GPS *****", returnString);
+                // Log.i("***** GPS *****", returnString);
 
                 String[] geoArray = returnString.split(",");
                 findWeatherGeo(geoArray[0], geoArray[1]);

@@ -32,13 +32,13 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <EditText
-        android:id="@+id/textZipCode"
+        android:id="@+id/textCity"
         android:layout_width="wrap_content"
         android:layout_height="0dp"
         android:layout_marginTop="36dp"
         android:ems="10"
-        android:hint="Search Zip Code"
-        android:inputType="number"
+        android:hint="U.S. City or Zip Code"
+        android:inputType="textCapWords"
         android:textAlignment="center"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -49,11 +49,11 @@
         android:layout_width="88dp"
         android:layout_height="48dp"
         android:layout_marginTop="16dp"
-        android:onClick="findWeatherZip"
+        android:onClick="findWeatherCity"
         android:text="Search"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textZipCode" />
+        app:layout_constraintTop_toBottomOf="@+id/textCity" />
 
 </android.support.constraint.ConstraintLayout>
