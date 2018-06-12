@@ -26,7 +26,6 @@ public class GetGPS extends AppCompatActivity implements LocationListener  {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        // TCK
         EnableRuntimePermission();
 
         context = getApplicationContext();
@@ -39,7 +38,7 @@ public class GetGPS extends AppCompatActivity implements LocationListener  {
     } //onCreate
 
     public void setupGPS() {
-        if(GpsStatus == true) {
+        if(GpsStatus) {
             if (Holder != null) {
                 if (ActivityCompat.checkSelfPermission(
                         GetGPS.this,
@@ -53,9 +52,7 @@ public class GetGPS extends AppCompatActivity implements LocationListener  {
                 locationManager.requestLocationUpdates(Holder, 5000, 5, (LocationListener) GetGPS.this);
             }
         } else {
-
             Toast.makeText(GetGPS.this, "Please Enable GPS First", Toast.LENGTH_LONG).show();
-
         }
     }
 
@@ -77,16 +74,13 @@ public class GetGPS extends AppCompatActivity implements LocationListener  {
     }
 
     public void onStatusChanged(String s, int i, Bundle bundle) {
-
     }
 
     public void onProviderEnabled(String s) {
-
     }
 
     @Override
     public void onProviderDisabled(String s) {
-
     }
 
     public void CheckGpsStatus(){

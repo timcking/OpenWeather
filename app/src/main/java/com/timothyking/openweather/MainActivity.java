@@ -13,13 +13,10 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 import android.content.Context;
-
 import com.squareup.picasso.Picasso;
-
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -31,12 +28,8 @@ import java.util.Date;
 import java.util.TimeZone;
 
 public class MainActivity extends AppCompatActivity {
-    /* ToDo
-    Check for empty text - done
-    Search by city - done
-    Error handling - done
-    Sunrise/Sunset - remove hard-coded GMT and display
-     */
+    // ToDo
+    // Sunrise/Sunset - remove hard-coded GMT
 
     Context context;
     private static final int GETGPS_REQUEST_CODE = 0;
@@ -46,30 +39,16 @@ public class MainActivity extends AppCompatActivity {
     TextView textCity;
     Button buttonSearch;
 
-    // TCK, not being used
-    //  public void findWeatherZip(View view) {
-    //
-    //      String zipCode = textZipCode.getText().toString();
-    //      DownloadTask task = new DownloadTask();
-    //
-    //      // Using string resources
-    //      String myURL = getString(R.string.myURL1) + "zip=" + zipCode + getString(R.string.myURL2);
-    //      task.execute(myURL);
-    //    }
-
     public String getFormattedDate(long unixDate) {
-        // TimeZone tz = TimeZone.getDefault();
+        // ToDo, remove hard-coded timezone
+        TimeZone tz = TimeZone.getTimeZone("America/Los_Angeles");
         Date date = new java.util.Date(unixDate*1000L);
         SimpleDateFormat sdf = new java.text.SimpleDateFormat("hh:mm:ss a");
-
-        // ToDo, remove hard-coded GMT
-        sdf.setTimeZone(java.util.TimeZone.getTimeZone("GMT-7"));
+        sdf.setTimeZone(tz);
         return sdf.format(date);
-
     }
 
     public void findWeatherGeo(String lat, String lon) {
-
         DownloadTask task = new DownloadTask();
 
         // Using string resource
@@ -78,8 +57,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void findWeatherCity(View view) {
-
-        // TCK temp
+        // Also takes zip code
         String city = textCity.getText().toString();
 
         DownloadTask task = new DownloadTask();
@@ -145,9 +123,11 @@ public class MainActivity extends AppCompatActivity {
                 long sunset = jsonObject.getJSONObject("sys").getLong("sunset");
                 long sunrise = jsonObject.getJSONObject("sys").getLong("sunrise");
 
-                // ToDo, display sunrise/sunset
-                String formatSunset = getFormattedDate(sunset);
+                // Display sunrise/sunset
                 String formatSunrise = getFormattedDate(sunrise);
+                Toast.makeText(MainActivity.this, "Sunrise: " + formatSunrise, Toast.LENGTH_LONG).show();
+                String formatSunset = getFormattedDate(sunset);
+                Toast.makeText(MainActivity.this, "Sunset: " + formatSunset, Toast.LENGTH_LONG).show();
 
                 JSONArray arr = new JSONArray(weatherInfo);
 
@@ -182,17 +162,15 @@ public class MainActivity extends AppCompatActivity {
         textCity.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-
             }
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-                enableSubmitIfReady();
             }
 
             @Override
             public void afterTextChanged(Editable s) {
-
+                enableSubmitIfReady();
             }
         });
 
