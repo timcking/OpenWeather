@@ -37,6 +37,8 @@ public class MainActivity extends AppCompatActivity {
     ImageView iconWeather;
     TextView textWeather;
     TextView textCity;
+    TextView textSunrise;
+    TextView textSunset;
     Button buttonSearch;
 
     public String getFormattedDate(long unixDate) {
@@ -125,9 +127,9 @@ public class MainActivity extends AppCompatActivity {
 
                 // Display sunrise/sunset
                 String formatSunrise = getFormattedDate(sunrise);
-                Toast.makeText(MainActivity.this, "Sunrise: " + formatSunrise, Toast.LENGTH_LONG).show();
+                textSunrise.setText(formatSunrise);
                 String formatSunset = getFormattedDate(sunset);
-                Toast.makeText(MainActivity.this, "Sunset: " + formatSunset, Toast.LENGTH_LONG).show();
+                textSunset.setText(formatSunset);
 
                 JSONArray arr = new JSONArray(weatherInfo);
 
@@ -156,6 +158,8 @@ public class MainActivity extends AppCompatActivity {
         iconWeather = findViewById(R.id.iconWeather);
         textWeather = findViewById(R.id.textWeather);
         textCity = findViewById(R.id.textCity);
+        textSunrise = findViewById(R.id.textSunrise);
+        textSunset = findViewById(R.id.textSunset);
         buttonSearch = findViewById(R.id.buttonSearch);
         enableSubmitIfReady();
 
