@@ -1,5 +1,7 @@
 <resources>
     <string name="app_name">Open Weather</string>
-    <string name="myURL1">http://api.openweathermap.org/data/2.5/weather?</string>
-    <string name="myURL2">&amp;units=imperial&amp;APPID=b480375788a0883deaccdae75a9438b1</string>
+    <string name="urlSearch">http://api.openweathermap.org/data/2.5/weather?</string>
+    <string name="urlForecast">http://api.openweathermap.org/data/2.5/forecast?</string>
+    <string name="urlEnd">&amp;units=imperial&amp;APPID=b480375788a0883deaccdae75a9438b1</string>
+    <string name="title_activity_forcast">ForcastActivity</string>
 </resources>

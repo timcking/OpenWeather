@@ -47,17 +47,6 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/tableLayout" />
 
-    <Button
-        android:id="@+id/buttonSearch"
-        android:layout_width="88dp"
-        android:layout_height="48dp"
-        android:layout_marginTop="60dp"
-        android:onClick="findWeatherCity"
-        android:text="Search"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textCity" />
-
     <TableLayout
         android:id="@+id/tableLayout"
         android:layout_width="181dp"
@@ -117,5 +106,46 @@
         </TableRow>
 
     </TableLayout>
+
+    <LinearLayout
+        android:layout_width="0dp"
+        android:layout_height="53dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="44dp"
+        android:gravity="center_horizontal"
+        android:orientation="horizontal"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textCity">
+
+        <Button
+            android:id="@+id/buttonSearch"
+            android:layout_width="88dp"
+            android:layout_height="48dp"
+            android:layout_weight="0"
+            android:onClick="findWeatherCity"
+            android:text="Search"
+            android:textAllCaps="false"
+            tools:layout_editor_absoluteX="72dp"
+            tools:layout_editor_absoluteY="373dp" />
+
+        <Space
+            android:layout_width="40dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="0" />
+
+        <Button
+            android:id="@+id/buttonForecast"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="0"
+            android:onClick="getForcast"
+            android:text="Forecast"
+            android:textAllCaps="false"
+            tools:layout_editor_absoluteX="227dp"
+            tools:layout_editor_absoluteY="373dp" />
+    </LinearLayout>
 
 </android.support.constraint.ConstraintLayout>

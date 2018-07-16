@@ -28,10 +28,8 @@ import java.util.Date;
 import java.util.TimeZone;
 
 public class MainActivity extends AppCompatActivity {
-    // ToDo
-    // Sunrise/Sunset - remove hard-coded GMT
-
     Context context;
+    public static final String EXTRA_MESSAGE = "com.timothyking.openweather.MESSAGE";
     private static final int GETGPS_REQUEST_CODE = 0;
     public  static final String TAG  = "OpenWeather";
     ImageView iconWeather;
@@ -40,12 +38,13 @@ public class MainActivity extends AppCompatActivity {
     TextView textSunrise;
     TextView textSunset;
     Button buttonSearch;
+    String placeName;
 
     public String getFormattedDate(long unixDate) {
         // ToDo, remove hard-coded timezone
         TimeZone tz = TimeZone.getTimeZone("America/Los_Angeles");
         Date date = new java.util.Date(unixDate*1000L);
-        SimpleDateFormat sdf = new java.text.SimpleDateFormat("hh:mm:ss a");
+        SimpleDateFormat sdf = new java.text.SimpleDateFormat("h:mm:ss a");
         sdf.setTimeZone(tz);
         return sdf.format(date);
     }
@@ -54,7 +53,7 @@ public class MainActivity extends AppCompatActivity {
         DownloadTask task = new DownloadTask();
 
         // Using string resource
-        String myURL = getString(R.string.myURL1) + "lat=" + lat + "&lon=" + lon + getString(R.string.myURL2);
+        String myURL = getString(R.string.urlSearch) + "lat=" + lat + "&lon=" + lon + getString(R.string.urlEnd);
         task.execute(myURL);
     }
 
@@ -65,8 +64,15 @@ public class MainActivity extends AppCompatActivity {
         DownloadTask task = new DownloadTask();
 
         // Using string resource
-        String myURL = getString(R.string.myURL1) + "q=" + city + ",US" + getString(R.string.myURL2);
+        String myURL = getString(R.string.urlSearch) + "q=" + city + ",US" + getString(R.string.urlEnd);
         task.execute(myURL);
+    }
+
+    public void getForcast(View view) {
+        // Call new activity
+        Intent intent = new Intent(this, ForecastActivity.class);
+        intent.putExtra(EXTRA_MESSAGE, placeName);
+        startActivity(intent);
     }
 
     public void enableSubmitIfReady() {
@@ -106,7 +112,6 @@ public class MainActivity extends AppCompatActivity {
             }
 
             return result;
-
         }
 
         protected void onPostExecute(String result) {
@@ -121,6 +126,9 @@ public class MainActivity extends AppCompatActivity {
                 // Format XX.XX to XX
                 String newTemp = temp.replaceAll("\\..*$", "");
                 String place = jsonObject.getString("name");
+
+                // Save as global variable to  use with Forecast
+                placeName = place;
 
                 long sunset = jsonObject.getJSONObject("sys").getLong("sunset");
                 long sunrise = jsonObject.getJSONObject("sys").getLong("sunrise");
