@@ -16,7 +16,7 @@ public class ListAdapter extends BaseAdapter {
     private Context context;
     private final String [] values;
     private final String [] numbers;
-    private final int [] images;
+    private final int[] images;
 
     public ListAdapter(Context context, String [] values, String [] numbers, int [] images){
         //super(context, R.layout.single_list_app_item, utilsArrayList);
