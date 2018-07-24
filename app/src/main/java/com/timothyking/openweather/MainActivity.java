@@ -103,9 +103,9 @@ public class MainActivity extends AppCompatActivity {
                 }
 
             } catch (MalformedURLException e) {
-                Log.e(TAG, "error while fetching weather info (this should not happen really!)", e);
+                Log.e(TAG, "Error while fetching weather info (this should not happen really!)", e);
             } catch (IOException e) {
-                Log.e(TAG, "error while fetching weather info", e);
+                Log.e(TAG, "Error while fetching weather info", e);
             } finally {
                 if(urlConnection != null)
                     urlConnection.disconnect();

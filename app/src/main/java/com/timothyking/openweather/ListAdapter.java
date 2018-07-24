@@ -1,7 +1,6 @@
 package com.timothyking.openweather;
 
 import android.content.Context;
-import android.media.Image;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
@@ -16,10 +15,10 @@ public class ListAdapter extends BaseAdapter {
     private Context context;
     private final String [] values;
     private final String [] numbers;
-    private final int[] images;
+    private final int [] images;
 
     public ListAdapter(Context context, String [] values, String [] numbers, int [] images){
-        //super(context, R.layout.single_list_app_item, utilsArrayList);
+        // super(context, R.layout.single_list_item, utilsArrayList);
         this.context = context;
         this.values = values;
         this.numbers = numbers;
@@ -52,9 +51,9 @@ public class ListAdapter extends BaseAdapter {
             viewHolder = new ViewHolder();
             LayoutInflater inflater = LayoutInflater.from(context);
             convertView = inflater.inflate(R.layout.single_list_item, parent, false);
-            viewHolder.txtName = (TextView) convertView.findViewById(R.id.aNametxt);
-            viewHolder.txtVersion = (TextView) convertView.findViewById(R.id.aVersiontxt);
-            viewHolder.icon = (ImageView) convertView.findViewById(R.id.appIconIV);
+            viewHolder.viewWeather = (TextView) convertView.findViewById(R.id.textWeather);
+            viewHolder.viewTemp = (TextView) convertView.findViewById(R.id.textTemp);
+            viewHolder.icon = (ImageView) convertView.findViewById(R.id.imageWeather);
 
             result=convertView;
 
@@ -64,16 +63,15 @@ public class ListAdapter extends BaseAdapter {
             result=convertView;
         }
 
-        viewHolder.txtName.setText(values[position]);
-        viewHolder.txtVersion.setText(numbers[position]);
+        viewHolder.viewWeather.setText(values[position]);
+        viewHolder.viewTemp.setText(numbers[position]);
         viewHolder.icon.setImageResource(images[position]);
-
         return convertView;
     }
 
     private static class ViewHolder {
-        TextView txtName;
-        TextView txtVersion;
+        TextView viewWeather;
+        TextView viewTemp;
         ImageView icon;
     }
 }

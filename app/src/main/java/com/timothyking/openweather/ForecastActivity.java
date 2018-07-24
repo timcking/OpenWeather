@@ -6,11 +6,10 @@ import android.os.AsyncTask;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
-import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.Toast;
 
-import com.squareup.picasso.Picasso;
+//import com.squareup.picasso.Picasso;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -23,7 +22,6 @@ import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.TimeZone;
 
@@ -31,10 +29,17 @@ public class ForecastActivity extends AppCompatActivity {
 
     public  static final String TAG  = "OpenWeather";
     // Temporary
-    int[] intArrImages = {R.drawable.d01, R.drawable.n01, R.drawable.d02, R.drawable.n02, R.drawable.d03, R.drawable.d04, R.drawable.d01, R.drawable.d02, R.drawable.d03, R.drawable.n02, R.drawable.d03, R.drawable.d04, R.drawable.n01, R.drawable.n02};
+    // int[] intArrImages = {R.drawable.d01, R.drawable.n01, R.drawable.d02, R.drawable.n02, R.drawable.d03,
+    //        R.drawable.d04, R.drawable.d01, R.drawable.d02, R.drawable.d03, R.drawable.n02,
+    //        R.drawable.d04, R.drawable.d01, R.drawable.d02, R.drawable.d03, R.drawable.n02,
+    //        R.drawable.d04, R.drawable.d01, R.drawable.d02, R.drawable.d03, R.drawable.n02,
+    //        R.drawable.d04, R.drawable.d01, R.drawable.d02, R.drawable.d03, R.drawable.n02,
+    //        R.drawable.d04, R.drawable.d01, R.drawable.d02, R.drawable.d03, R.drawable.n02,
+    //        R.drawable.d04, R.drawable.d01, R.drawable.d02, R.drawable.d03, R.drawable.n02,
+    //        R.drawable.d04, R.drawable.d03, R.drawable.d04, R.drawable.n01, R.drawable.n02};
 
     // ToDo, remove hardcoding, don't know if count will always be 40
-    // ImageView[] intArrImages = new ImageView[40];
+    int[] intArrImages = new int[40];
     String[] strArrCondTemp =  new String[40];
     String[] strArrDateTime = new String[40];
 
@@ -90,9 +95,9 @@ public class ForecastActivity extends AppCompatActivity {
                 }
 
             } catch (MalformedURLException e) {
-                Log.e(TAG, "error while fetching weather info (this should not happen really!)", e);
+                Log.e(TAG, "Error while fetching weather info (this should not happen really!)", e);
             } catch (IOException e) {
-                Log.e(TAG, "error while fetching weather info", e);
+                Log.e(TAG, "Error while fetching weather info", e);
             } finally {
                 if(urlConnection != null)
                     urlConnection.disconnect();
@@ -103,11 +108,9 @@ public class ForecastActivity extends AppCompatActivity {
 
         protected void onPostExecute(String result) {
             super.onPostExecute(result);
-            int resultCount;
 
             try {
                 JSONObject jsonObject = new JSONObject(result);
-                resultCount = jsonObject.getInt("cnt");
 
                 String forecastInfo = jsonObject.getString("list");
 
@@ -133,9 +136,47 @@ public class ForecastActivity extends AppCompatActivity {
                     strArrDateTime[i] = formatDate;
                     strArrCondTemp[i] = (condition + " " + temp + "\u00b0 F");
 
-                    String url = ("http://openweathermap.org/img/w/" + iconName + ".png");
-
+                    // Picasso
+                    // String url = ("http://openweathermap.org/img/w/" + iconName + ".png");
                     // Picasso.get().load(url).into(intArrImages[i]);
+
+                    // Hack, not using Picasso
+                    switch (iconName) {
+                        case "01d":
+                            intArrImages[i] = R.drawable.d01;
+                            break;
+                        case "01n":
+                             intArrImages[i] = R.drawable.n01;
+                            break;
+                        case "02n":
+                            intArrImages[i] = R.drawable.n02;
+                            break;
+                        case "03n":
+                            intArrImages[i] = R.drawable.n03;
+                            break;
+                        case "02d":
+                            intArrImages[i] = R.drawable.d02;
+                            break;
+                        case "03d":
+                            intArrImages[i] = R.drawable.d03;
+                            break;
+                        case "04d":
+                            intArrImages[i] = R.drawable.d04;
+                            break;
+                        case "04n":
+                            intArrImages[i] = R.drawable.n04;
+                            break;
+                        case "10n":
+                            intArrImages[i] = R.drawable.n10;
+                            break;
+                        case "10d":
+                            intArrImages[i] = R.drawable.d10;
+                            break;
+                        default:
+                            Log.i (TAG, "Icon not found: " + iconName);
+                            intArrImages[i] = R.drawable.d01;
+                            break;
+                    }
                 }
             } catch (JSONException e) {
                 Toast.makeText(ForecastActivity.this, "Not found, try another city or zip",
