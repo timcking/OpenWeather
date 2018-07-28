@@ -68,7 +68,7 @@ public class MainActivity extends AppCompatActivity {
         task.execute(myURL);
     }
 
-    public void getForcast(View view) {
+    public void getForecast(View view) {
         // Call new activity
         Intent intent = new Intent(this, ForecastActivity.class);
         intent.putExtra(EXTRA_MESSAGE, placeName);

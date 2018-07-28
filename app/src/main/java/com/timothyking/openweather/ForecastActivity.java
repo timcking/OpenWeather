@@ -28,15 +28,6 @@ import java.util.TimeZone;
 public class ForecastActivity extends AppCompatActivity {
 
     public  static final String TAG  = "OpenWeather";
-    // Temporary
-    // int[] intArrImages = {R.drawable.d01, R.drawable.n01, R.drawable.d02, R.drawable.n02, R.drawable.d03,
-    //        R.drawable.d04, R.drawable.d01, R.drawable.d02, R.drawable.d03, R.drawable.n02,
-    //        R.drawable.d04, R.drawable.d01, R.drawable.d02, R.drawable.d03, R.drawable.n02,
-    //        R.drawable.d04, R.drawable.d01, R.drawable.d02, R.drawable.d03, R.drawable.n02,
-    //        R.drawable.d04, R.drawable.d01, R.drawable.d02, R.drawable.d03, R.drawable.n02,
-    //        R.drawable.d04, R.drawable.d01, R.drawable.d02, R.drawable.d03, R.drawable.n02,
-    //        R.drawable.d04, R.drawable.d01, R.drawable.d02, R.drawable.d03, R.drawable.n02,
-    //        R.drawable.d04, R.drawable.d03, R.drawable.d04, R.drawable.n01, R.drawable.n02};
 
     // ToDo, remove hardcoding, don't know if count will always be 40
     int[] intArrImages = new int[40];
@@ -141,6 +132,7 @@ public class ForecastActivity extends AppCompatActivity {
                     // Picasso.get().load(url).into(intArrImages[i]);
 
                     // Hack, not using Picasso
+                    // Resources can't have names starting with numbers, so have to translate 01d to d01
                     switch (iconName) {
                         case "01d":
                             intArrImages[i] = R.drawable.d01;
@@ -181,11 +173,11 @@ public class ForecastActivity extends AppCompatActivity {
             } catch (JSONException e) {
                 Toast.makeText(ForecastActivity.this, "Not found, try another city or zip",
                         Toast.LENGTH_LONG).show();
-                Log.e(TAG, "error while fetching weather info", e);
+                Log.e(TAG, "Error while fetching weather info", e);
             }
 
             // Setup list
-            lView = (ListView) findViewById(R.id.listForecast);
+            lView = findViewById(R.id.listForecast);
             lAdapter = new ListAdapter(ForecastActivity.this, strArrDateTime, strArrCondTemp, intArrImages);
             lView.setAdapter(lAdapter);
         }

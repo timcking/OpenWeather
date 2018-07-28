@@ -141,7 +141,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="0"
-            android:onClick="getForcast"
+            android:onClick="getForecast"
             android:text="Forecast"
             android:textAllCaps="false"
             tools:layout_editor_absoluteX="227dp"
