@@ -12,6 +12,7 @@
 bin/
 gen/
 out/
+*.ser
 
 # Gradle files
 .gradle/

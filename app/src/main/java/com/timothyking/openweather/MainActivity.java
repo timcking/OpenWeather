@@ -40,8 +40,43 @@ public class MainActivity extends AppCompatActivity {
     Button buttonSearch;
     String placeName;
 
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
+
+        context = getApplicationContext();
+
+        iconWeather = findViewById(R.id.iconWeather);
+        textWeather = findViewById(R.id.textWeather);
+        textCity = findViewById(R.id.textCity);
+        textSunrise = findViewById(R.id.textSunrise);
+        textSunset = findViewById(R.id.textSunset);
+        buttonSearch = findViewById(R.id.buttonSearch);
+        enableSubmitIfReady();
+
+        textCity.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                enableSubmitIfReady();
+            }
+        });
+
+        Intent intent = new Intent(this, GetGPS.class);
+        startActivityForResult(intent, GETGPS_REQUEST_CODE);
+    }
     public String getFormattedDate(long unixDate) {
-        // ToDo, remove hard-coded timezone
+        // ToDo, this does not work, it sets tz as UTC
+        // TimeZone tz = TimeZone.getDefault();
+
         TimeZone tz = TimeZone.getTimeZone("America/Los_Angeles");
         Date date = new java.util.Date(unixDate*1000L);
         SimpleDateFormat sdf = new java.text.SimpleDateFormat("h:mm:ss a");
@@ -124,27 +159,30 @@ public class MainActivity extends AppCompatActivity {
                 String humidity = jsonObject.getJSONObject("main").getString("humidity");
                 String temp = jsonObject.getJSONObject("main").getString("temp");
                 // Format XX.XX to XX
-                String newTemp = temp.replaceAll("\\..*$", "");
+                String temperature = temp.replaceAll("\\..*$", "");
                 String place = jsonObject.getString("name");
 
                 // Save as global variable to  use with Forecast
-                placeName = place;
+                // Vanderbilt Way shows up as Rosemont but in IL.
+                if (place.equals("Rosemont")) {
+                    placeName = "Sacramento";
+                } else {
+                    placeName = place;
+                }
 
                 long sunset = jsonObject.getJSONObject("sys").getLong("sunset");
                 long sunrise = jsonObject.getJSONObject("sys").getLong("sunrise");
 
                 // Display sunrise/sunset
-                String formatSunrise = getFormattedDate(sunrise);
-                textSunrise.setText(formatSunrise);
-                String formatSunset = getFormattedDate(sunset);
-                textSunset.setText(formatSunset);
+                textSunrise.setText(getFormattedDate(sunrise));
+                textSunset.setText(getFormattedDate(sunset));
 
                 JSONArray arr = new JSONArray(weatherInfo);
 
                 for (int i = 0; i < arr.length(); i++) {
                     JSONObject jsonPart = arr.getJSONObject(i);
                     String weather = jsonPart.getString("main");
-                    textWeather.setText(place + "\n" + newTemp + " \u00b0 F\n" + weather + "\n" +
+                    textWeather.setText(place + "\n" + temperature + " \u00b0 F\n" + weather + "\n" +
                             humidity + "% Humidity");
                     String iconName = jsonPart.getString("icon");
                     Picasso.get().load("http://openweathermap.org/img/w/" + iconName + ".png").into(iconWeather);
@@ -154,40 +192,6 @@ public class MainActivity extends AppCompatActivity {
                 Log.e(TAG, "error while fetching weather info", e);
             }
         }
-    }
-
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
-
-        context = getApplicationContext();
-
-        iconWeather = findViewById(R.id.iconWeather);
-        textWeather = findViewById(R.id.textWeather);
-        textCity = findViewById(R.id.textCity);
-        textSunrise = findViewById(R.id.textSunrise);
-        textSunset = findViewById(R.id.textSunset);
-        buttonSearch = findViewById(R.id.buttonSearch);
-        enableSubmitIfReady();
-
-        textCity.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-            }
-
-            @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-            }
-
-            @Override
-            public void afterTextChanged(Editable s) {
-                enableSubmitIfReady();
-            }
-        });
-
-        Intent intent = new Intent(this, GetGPS.class);
-        startActivityForResult(intent, GETGPS_REQUEST_CODE);
     }
 
     @Override

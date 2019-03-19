@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+<?xml version="2.0" encoding="utf-8"?>
 <android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
@@ -39,7 +39,7 @@
         android:layout_marginStart="8dp"
         android:layout_marginTop="36dp"
         android:ems="10"
-        android:hint="U.S. City or Zip Code"
+        android:hint="@string/city_zip"
         android:inputType="textCapWords"
         android:textAlignment="center"
         app:layout_constraintEnd_toEndOf="parent"
@@ -126,7 +126,7 @@
             android:layout_height="48dp"
             android:layout_weight="0"
             android:onClick="findWeatherCity"
-            android:text="Search"
+            android:text="@string/search_button"
             android:textAllCaps="false"
             tools:layout_editor_absoluteX="72dp"
             tools:layout_editor_absoluteY="373dp" />
@@ -142,7 +142,7 @@
             android:layout_height="wrap_content"
             android:layout_weight="0"
             android:onClick="getForecast"
-            android:text="Forecast"
+            android:text="@string/forecast_button"
             android:textAllCaps="false"
             tools:layout_editor_absoluteX="227dp"
             tools:layout_editor_absoluteY="373dp" />

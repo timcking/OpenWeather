@@ -20,8 +20,8 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".GetGPS">
-            android:parentActivityName=".MainActivity"
+        <activity android:name=".GetGPS"
+            android:parentActivityName=".MainActivity">
         </activity>
         <activity android:name=".ForecastActivity"></activity>
     </application>
