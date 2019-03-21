@@ -74,10 +74,10 @@ public class MainActivity extends AppCompatActivity {
         startActivityForResult(intent, GETGPS_REQUEST_CODE);
     }
     public String getFormattedDate(long unixDate) {
-        // ToDo, this does not work, it sets tz as UTC
-        // TimeZone tz = TimeZone.getDefault();
+        // TimeZone tz = TimeZone.getTimeZone("America/Los_Angeles");
+        // ToDo, this suddenly started working
+        TimeZone tz = TimeZone.getDefault();
 
-        TimeZone tz = TimeZone.getTimeZone("America/Los_Angeles");
         Date date = new java.util.Date(unixDate*1000L);
         SimpleDateFormat sdf = new java.text.SimpleDateFormat("h:mm:ss a");
         sdf.setTimeZone(tz);
